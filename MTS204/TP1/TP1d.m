@@ -46,7 +46,17 @@ xlabel('Temps second');
 ylabel('Amplitude');
 title('Signal d''Erreur de prediction');
 
-
-
-
-
+%% Question 4
+% l'ecart-type de l'erreur de prediction
+Ecart_type = zeros(Nbr_trame,1);
+for i = 0:Nbr_trame-1
+    ind = i+1;
+    Ecart_type(ind) = std(e(1+nb*i:nb*ind));
+end
+figure();
+T = (0:Nbr_trame-1)*nb/FS;
+stairs(T, Ecart_type);
+axis([0,N/FS,0,0.06]);
+xlabel('Temps second');
+ylabel('Amplitude');
+title('Ecart-type de l''erreur de prediction');
