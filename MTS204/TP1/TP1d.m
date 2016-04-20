@@ -60,3 +60,28 @@ axis([0,N/FS,0,0.06]);
 xlabel('Temps second');
 ylabel('Amplitude');
 title('Ecart-type de l''erreur de prediction');
+
+%% Question 5
+% Generer un bruit blanc gaussien cente reduit
+% mu = 0; sigma = Ecart_type(1);  
+% Bruit = BruitBlanc(mu, Ecart_type, nb);
+
+%% Question 6
+for ind = 1:1:Nbr_trame
+    Bruit_blanc = BruitBlanc(0, Ecart_type(ind), nb);
+    A = [1;a(:,i)];
+    Sigal_synthese(1+nb*(ind-1):nb*ind) = filter(1, A, Bruit_blanc);
+end
+figure();
+T = (0:nb*Nbr_trame-1)/FS;
+plot(T, Sigal_synthese)
+axis([0,N/FS,-1,1]);
+xlabel('Temps second');
+ylabel('Amplitude');
+title('Signal de synthese');
+
+%% Question 7
+Var_singal = var(X(1:Nbr_trame*nb));
+Var_bruit = var(X(1:Nbr_trame*nb)-Sigal_synthese');
+SNR = Var_singal/Var_bruit;
+SNR_dB = 10*log10(SNR);
