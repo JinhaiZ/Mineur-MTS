@@ -1,5 +1,5 @@
 %%Exercice 1
-%% question1 & 2
+%% question 1 & 2
 clear all
 masque=1/3*[0 1/2 0; 1/2 1 1/2; 0 1/2 0];
 

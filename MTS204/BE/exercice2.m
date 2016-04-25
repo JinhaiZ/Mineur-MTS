@@ -1,5 +1,6 @@
-%%Exercice 1
-%% question1
+%%Exercice 2
+%% question 1
+clear all;
 I=[50 45 40 40 27;
    10 18 42 36 18;
    25 35 41 38 10;
