@@ -38,7 +38,7 @@ val = mean_std(ind,1);
 %locale du point de coordonnees (4,3).
 
 %% question 4
-% Lancer le programme nagao2 pour voir l’effet du filtre de Nagao sur une image.
+% Lancer le programme nagao2 pour voir lâ€™effet du filtre de Nagao sur une image.
 
 %% question 5
 %PSNR = 10*log10(d^2/EQM);
@@ -116,8 +116,8 @@ subplot(2,2,3);
 imshow(mat2gray(Imfin));
 title('Image bruitee puis filtree par Nagao');
 
-EQM = 1/(m*n)*sum(sum(Imfin - im2double(I1)).^2);
-% une image où les composantes d'un pixel sont codées sur 8 bits, d=256
+EQM = 1/(m*n)*sum(sum((Imfin - im2double(I1)).^2));
+% une image oÃ¹ les composantes d'un pixel sont codÃ©es sur 8 bits, d=256
 d = 256;
 PSNR = 10*log10(d^2/EQM);
 
@@ -130,7 +130,7 @@ subplot(2,2,4);
 imshow(mat2gray(I_filtre));
 title('Image bruitee puis filtree par convolution')
 
-EQM_filtre = 1/(m*n)*sum(sum(I_filtre - im2double(I1)).^2);
-% une image où les composantes d'un pixel sont codées sur 8 bits, d=256
+EQM_filtre = 1/(m*n)*sum(sum((I_filtre - im2double(I1)).^2));
+% une image oÃ¹ les composantes d'un pixel sont codÃ©es sur 8 bits, d=256
 d_filtre = 256;
 PSNR_filtre = 10*log10(d_filtre^2/EQM_filtre);
