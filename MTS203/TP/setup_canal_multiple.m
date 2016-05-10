@@ -23,7 +23,7 @@ z=double(dec2bin(Y,Q))-48;%% dec2bin convertit en string binaire!!!
 %% et double('1')=49 et double('0')=48
 Y=z(:);
 [l_z c_z]=size(z);
-dk=((2*Y(1:2:length(Y))-1)+i*(2*Y(2:2:length(Y))-1));
+dk=((2*Y(1:2:length(Y))-1)+i*(2*Y(2:2:length(Y))-1)); %262 144
 
 %% affichage de la constellation de depart
 figure(2);
@@ -38,7 +38,7 @@ N_symb=length(dk);
 
 %% donnees 4-PSK avec nech echantillons par temps symbole T
 TAB=zeros(N_symb*nech,1);
-TAB(1:nech:length(TAB))=dk;
+TAB(1:nech:length(TAB))=dk; % 2 097 152
 
 %% filtrage d'emission
 Tmax=6*T;
@@ -50,23 +50,26 @@ signal_emis=filter(ge,1,TAB);
 %->
 %% Canal de transmission (canal a trajets multiples)
 SNR=20;
-longueur=length([signal_emis;zeros(17*nech,1)]);
+longueur=length(signal_emis);
 bruit_r=(10^(-SNR/20))*randn(longueur,1);
 bruit_i=(10^(-SNR/20))*randn(longueur,1);
 bruit=bruit_r+j*bruit_i;
 %-> canal
 %if (type_canal==1)
-    signal_bruite=[signal_emis;zeros(17*nech,1)]+bruit;
+    signal_bruite=[signal_emis]+bruit;
 %end,
 %-> rapport signal sur bruit d'entree
 %SNR_entree =  10*log10(var(signal_bruite-bruit)/var(bruit));
 
 %retard = [2*nech, 12*nech, 17*nech];
-signal_1 = [zeros(2*nech,1);signal_emis;zeros(15*nech,1)];
-signal_2 = [zeros(12*nech,1);signal_emis;zeros(5*nech,1)];
-signal_3 = [zeros(17*nech,1);signal_emis];
+%signal_1 = [zeros(2,1);signal_emis;zeros(15,1)];
+%signal_2 = [zeros(12,1);signal_emis;zeros(5,1)];
+%signal_3 = [zeros(17,1);signal_emis];
 att = [0.8*exp(j*pi/4), 0.3*exp(j*pi*3/2), 0.2*exp(j*pi/16)];
-signal_multiple = signal_bruite + att(1)*signal_1 + att(2)*signal_2 + att(3)*signal_3;
+
+B = zeros(17,1);
+B(2)= att(1); B(12)= att(2); B(17)=att(3);
+signal_multiple = filter(B,1 ,signal_emis)+bruit;
 %% Filtre adapte de reception
 gr=fliplr(ge);
 signal_adapte=filter(gr,1,signal_multiple);
@@ -83,3 +86,12 @@ xlabel('t/T')
 ylabel('Partie Reelle')
 title('Diagramme de l''oeil en sortie du filtre adapte avec canal a trajets multiple')
 hold off
+%% affichage de la constellation en sortie
+figure();
+    plot(real(signal_adapte),imag(signal_adapte),'x');
+    grid;
+    axis([-2 2 -2 2]);
+    xlabel('Re(signal_adapte)');
+    ylabel('Im(signal_adapte)');
+    title('Constellation en multicanal');
+    hold off

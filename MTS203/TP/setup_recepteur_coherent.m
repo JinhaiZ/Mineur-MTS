@@ -4,7 +4,7 @@ clear all;
 close all;
 nech=8;
 T=1;
-type_canal=1; % canal 1 : gaussien à bande illimmitée, canal 2 : canal sélectif en fréquence
+type_canal=1; % canal 1 : gaussien ?bande illimmitée, canal 2 : canal sélectif en fréquence
 alpha=0.5;
 
 y=imread('lena.jpg');
@@ -28,7 +28,7 @@ Tmax=6*T;
 t=-Tmax:T/nech:Tmax;
 ge=rrcosf(alpha,T,nech,Tmax); 
 signal_emis=filter(ge,1,TAB);
-theta=pi/4
+theta=pi/4;
 signal_emis=signal_emis*exp(i*theta);
 
 % generation de gr et etude de h=(ge * gr) 
